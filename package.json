@@ -11,10 +11,12 @@
     "@elysia/openapi": "^1.4.15",
     "drizzle-orm": "^0.45.2",
     "drizzle-typebox": "^0.3.3",
-    "elysia": "latest"
+    "elysia": "latest",
+    "postgres": "^3.4.9"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.31.10"
   },
   "overrides": {
     "@sinclair/typebox": "0.34.0"
