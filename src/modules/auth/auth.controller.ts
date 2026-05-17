@@ -24,5 +24,5 @@ export const authController = new Elysia({ prefix: '/auth' })
     return { token, refreshToken }
   }, { body: loginSchema })
   .post('/register', async ({ body }) => {
-    return await user.createUser(body)
+    return await auth.register(body)
   }, { body: registerSchema })

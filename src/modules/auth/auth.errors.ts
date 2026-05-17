@@ -8,7 +8,7 @@ export class InvalidCredentialsError extends AppError {
 
 export class AlreadyExistingUserError extends AppError {
   constructor(message = "The username is already taken.") {
-    super(message, 404, "ALREADY_EXISTING_USER_ERROR")
+    super(message, 400, "ALREADY_EXISTING_USER_ERROR")
   }
 }
 
