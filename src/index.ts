@@ -4,10 +4,14 @@ import cors from '@elysia/cors'
 import openapi, { fromTypes } from '@elysia/openapi'
 import { userController } from '@/modules/user'
 import { authController } from '@/modules/auth'
+import { globalErrorHandler } from '@/shared/middleware/error.middleware'
+import { AppError } from '@/shared/errors/app.error'
 
 const app = new Elysia()
   .use(cors())
   .use(openapi({ references: fromTypes() }))
+  .error({ 'APPLICATION_ERROR': AppError })
+  .onError(globalErrorHandler)
   .use(authController)
   .use(userController)
   .listen(env.PORT)
