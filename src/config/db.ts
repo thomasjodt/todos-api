@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 
 import { env } from './env'
-import { users } from '../modules/user'
+import { users } from '@/modules/user'
 
 // 1. Crear el cliente de base de datos
 const client = postgres(env.DATABASE_URL)
@@ -14,3 +14,4 @@ const schema = {
 
 // 3. Inicializar Drizzle
 export const db = drizzle(client, { schema })
+export type Db = typeof db
