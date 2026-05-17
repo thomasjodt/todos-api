@@ -10,7 +10,14 @@ export const userRepository = (db: Db): UserRepository => ({
     return counter.total
   },
   getUsers: async (page: number, limit: number) => {
-    return db.select().from(users)
+    const fields = {
+      id: users.id,
+      name: users.name,
+      username: users.username,
+      email: users.email
+    }
+
+    return db.select(fields).from(users)
       .limit(limit)
       .offset((page - 1) * limit)
   },

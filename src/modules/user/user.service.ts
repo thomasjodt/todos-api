@@ -1,4 +1,4 @@
-import type { UserRepository, UserService, NewUser } from './user.types'
+import type { UserRepository, UserService, CreateUserModel } from './user.types'
 
 export const userService = (repository: UserRepository): UserService => ({
   getUsers: async (page, limit) => {
@@ -9,7 +9,11 @@ export const userService = (repository: UserRepository): UserService => ({
 
     return { count, data }
   },
-  createUser: async (data: NewUser) => {
-    return await repository.createUser(data)
+  createUser: async (data: CreateUserModel) => {
+    const password = Bun.password.hash(data.password, {
+      algorithm: 'bcrypt',
+      cost: 10
+    })
+    return await repository.createUser({ ...data, password })
   }
 })

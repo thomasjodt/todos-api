@@ -1,7 +1,7 @@
 import { pgTable, text, uuid } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
   username: text('username').unique(),
   email: text('email').notNull(),
@@ -9,4 +9,4 @@ export const users = pgTable('users', {
 })
 
 export type User = typeof users.$inferSelect
-export type NewUser = typeof users.$inferInsert
+export type NewUser = Omit<typeof users.$inferInsert, 'username'>
