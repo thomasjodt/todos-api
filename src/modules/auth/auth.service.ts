@@ -1,6 +1,6 @@
 import { UserService } from '@/modules/user/user.types'
 import { AuthService } from '@/modules/auth/auth.types'
-import { AlreadyExistingUserError, InvalidCredentialsError } from '@/modules/auth/auth.errors'
+import { AlreadyExistingUserError, InvalidCredentialsError, UserCreationError } from '@/modules/auth/auth.errors'
 
 export const authService = (userService: UserService): AuthService => ({
   login: async (identifier: string, password: string) => {
@@ -18,7 +18,11 @@ export const authService = (userService: UserService): AuthService => ({
   },
   register: async ({ password, name, email }) => {
     const user = await userService.findUser(email)
+
     if (user) throw new AlreadyExistingUserError()
-    return await userService.createUser({ email , name, password })
+    const created = await userService.createUser({ email , name, password })
+
+    if (!created) throw new UserCreationError()
+    return created
   }
 })

@@ -3,7 +3,6 @@ import { Db } from '@/config/db'
 
 import { users } from './user.schema'
 import { type NewUser, UserRepository } from './user.types'
-import { UserCreationError } from '@/modules/auth/auth.errors'
 
 const userDtoFields = {
   id: users.id,
@@ -26,10 +25,6 @@ export const userRepository = (db: Db): UserRepository => ({
     const [newUserID] = await db.insert(users)
       .values(user)
       .returning({ id: users.id })
-
-    if (!newUserID) {
-      throw new UserCreationError()
-    }
     return newUserID
   },
   findUserByEmail: async (email) => {
@@ -38,16 +33,15 @@ export const userRepository = (db: Db): UserRepository => ({
       .where(eq(users.email, email))
       .limit(1)
 
-    if (!user) return null
-    return user
+    return user ?? null
   },
   findUserByUsername: async (username) => {
+
     const [user] = await db.select()
       .from(users)
       .where(eq(users.username, username))
       .limit(1)
 
-    if (!user) return null
-    return user
+    return user ?? null
   }
 })
