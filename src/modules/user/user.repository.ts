@@ -3,6 +3,7 @@ import { Db } from '@/config/db'
 
 import { users } from './user.schema'
 import { type NewUser, UserRepository } from './user.types'
+import { UserCreationError } from '@/modules/auth/auth.errors'
 
 const userDtoFields = {
   id: users.id,
@@ -27,8 +28,7 @@ export const userRepository = (db: Db): UserRepository => ({
       .returning({ id: users.id })
 
     if (!newUserID) {
-      // TODO: Crear nuevo error
-      throw new Error('Failed to create user')
+      throw new UserCreationError()
     }
     return newUserID
   },
