@@ -1,8 +1,15 @@
-import { count } from 'drizzle-orm'
+import { count, eq } from 'drizzle-orm'
 import { Db } from '@/config/db'
 
 import { users } from './user.schema'
 import { type NewUser, UserRepository } from './user.types'
+
+const userDtoFields = {
+  id: users.id,
+  name: users.name,
+  username: users.username,
+  email: users.email
+}
 
 export const userRepository = (db: Db): UserRepository => ({
   count: async () => {
@@ -10,14 +17,7 @@ export const userRepository = (db: Db): UserRepository => ({
     return counter.total
   },
   getUsers: async (page: number, limit: number) => {
-    const fields = {
-      id: users.id,
-      name: users.name,
-      username: users.username,
-      email: users.email
-    }
-
-    return db.select(fields).from(users)
+    return db.select(userDtoFields).from(users)
       .limit(limit)
       .offset((page - 1) * limit)
   },
@@ -31,5 +31,23 @@ export const userRepository = (db: Db): UserRepository => ({
       throw new Error('Failed to create user')
     }
     return newUserID
+  },
+  findUserByEmail: async (email) => {
+    const [user] = await db.select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1)
+
+    if (!user) return null
+    return user
+  },
+  findUserByUsername: async (username) => {
+    const [user] = await db.select()
+      .from(users)
+      .where(eq(users.username, username))
+      .limit(1)
+
+    if (!user) return null
+    return user
   }
 })
