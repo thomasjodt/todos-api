@@ -22,6 +22,13 @@
       "when": 1778989642361,
       "tag": "0002_bent_diamondback",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778996556541,
+      "tag": "0003_dry_deadpool",
+      "breakpoints": true
     }
   ]
 }
