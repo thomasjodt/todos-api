@@ -15,6 +15,13 @@
       "when": 1778981339466,
       "tag": "0001_sloppy_the_professor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778989642361,
+      "tag": "0002_bent_diamondback",
+      "breakpoints": true
     }
   ]
 }
