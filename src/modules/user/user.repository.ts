@@ -36,12 +36,20 @@ export const userRepository = (db: Db): UserRepository => ({
     return user ?? null
   },
   findUserByUsername: async (username) => {
-
     const [user] = await db.select()
       .from(users)
       .where(eq(users.username, username))
       .limit(1)
 
     return user ?? null
+  },
+  updateUsername: async (id: string, newUsername: string): Promise<boolean> => {
+    const [response] = await db.update(users)
+      .set({ username: newUsername })
+      .where(eq(users.id, id))
+      .returning({ username: users.username })
+
+    if (response === null) return false
+    return response.username === newUsername
   }
 })
