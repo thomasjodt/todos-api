@@ -1,8 +1,8 @@
 import { Elysia, t } from 'elysia'
 import { db } from '@/config/db'
-import { userService } from '@/modules/user/user.service'
-import { userRepository } from '@/modules/user/user.repository'
-import { createUserModel, getUsersModel } from './user.model'
+import { userService } from './user.service'
+import { userRepository } from './user.repository'
+import { createUserModel, getUsersModel, updateUsernameModel } from './user.model'
 
 const repo = userRepository(db)
 const user = userService(repo)
@@ -21,3 +21,8 @@ export const userController = new Elysia({ prefix: '/users' })
     },
     { body: createUserModel, response: t.String() }
   )
+  .patch('/:id/username', async ({ params, body }) => {
+    const { id } = params
+    const isUpdated: boolean = await user.updateUsername(id, body.username)
+    return { success: isUpdated }
+  }, { body: updateUsernameModel, response: t.Object({ success: t.Boolean() }) })
