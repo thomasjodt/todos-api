@@ -10,3 +10,11 @@ export const createUserModel = t.Object({
   email: t.String({ format: 'email' }),
   password: t.String({ minLength: 8 }),
 })
+
+export const updateUsernameModel = t.Object({
+  username: t.String({
+    minLength: 5,
+    maxLength: 30,
+    pattern: '[a-zA-Z0-9-_]+'
+  })
+})
