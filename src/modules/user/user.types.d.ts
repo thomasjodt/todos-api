@@ -13,10 +13,13 @@ export interface UserRepository {
   createUser: (user: NewUser) => Promise<Pick<User, 'id'>>
   findUserByEmail: (email: string) => Promise<User | null>
   findUserByUsername: (username: string) => Promise<User | null>
+  updateUsername: (userId: string, newUsername: string) => Promise<boolean>
 }
 
 export interface UserService {
   getUsers: (page: number, limit: number) => Promise<PaginatedResult<UserDto>>
   createUser: (user: CreateUserModel) => Promise<Pick<User, 'id'>>
   findUser: (identifier: string) => Promise<User | null>
+  isAvailableUsername: (username: string) => Promise<boolean>
+  updateUsername: (userId: string, newUsername: string) => Promise<boolean>
 }
