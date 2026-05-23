@@ -13,7 +13,8 @@ const EnvSchema = t.Object({
     [t.Literal('development'), t.Literal('production')]
   ),
   DATABASE_URL: t.String(),
-  JWT_SECRET: t.String()
+  JWT_ACCESS_SECRET: t.String(),
+  JWT_REFRESH_SECRET: t.String()
 })
 
 // 2. Compile the schema.
