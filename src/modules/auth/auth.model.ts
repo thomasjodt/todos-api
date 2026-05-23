@@ -11,3 +11,7 @@ export const registerSchema = t.Object({
   email: t.String({ format: 'email' }),
   password: t.String({ minLength: 8 })
 })
+
+export const cookieSchema = t.Cookie({
+  refreshToken: t.Optional(t.String())
+})
