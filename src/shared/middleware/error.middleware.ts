@@ -1,7 +1,7 @@
 import { ErrorHandler } from 'elysia'
 import { AppError } from '@/shared/errors/app.error'
 
-export const globalErrorHandler: ErrorHandler<{'APPLICATION_ERROR': AppError}> = ({ code, error, set } ) => {
+export const globalErrorHandler: ErrorHandler = ({ code, error, set } ) => {
   // 1. Check if it's a custom error
   if (error instanceof AppError) {
     set.status = error.status

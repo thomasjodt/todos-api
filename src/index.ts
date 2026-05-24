@@ -10,7 +10,6 @@ import { AppError } from '@/shared/errors/app.error'
 const app = new Elysia()
   .use(cors())
   .use(openapi({ references: fromTypes() }))
-  .error({ 'APPLICATION_ERROR': AppError })
   .onError(globalErrorHandler)
   .use(authController)
   .use(userController)
