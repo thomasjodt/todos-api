@@ -3,6 +3,7 @@ import jwt from '@elysia/jwt'
 import bearer from '@elysia/bearer'
 
 import { env } from '@/config'
+import { db } from '@/config/db'
 import { userController } from '@/modules/user'
 import { AuthorizationError } from '@/shared/errors/auth.error'
 
@@ -17,4 +18,4 @@ export const protectedRouter = new Elysia({ prefix: '/api'})
 
     return { userId: payload.id }
   })
-  .use(userController)
+  .use(userController(db))
