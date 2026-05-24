@@ -1,7 +1,7 @@
-import { AppError } from '@/shared/errors/app.error'
+import { UnauthorizedError } from '@/shared/errors/app.error'
 
-export class AuthorizationError extends AppError {
+export class AuthorizationError extends UnauthorizedError {
   constructor(message = "Authentication failed.") {
-    super(message, 401, "AUTH_ERROR")
+    super(message)
   }
 }

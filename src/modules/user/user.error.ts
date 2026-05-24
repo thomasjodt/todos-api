@@ -1,7 +1,7 @@
-import { AppError } from '@/shared/errors/app.error'
+import { ConflictError } from '@/shared/errors/app.error'
 
-export class ExistingUsernameError extends AppError {
+export class ExistingUsernameError extends ConflictError {
   constructor(message = "The username is already taken.") {
-    super(message, 409, "EXISTING_USERNAME_ERROR")
+    super(message)
   }
 }

@@ -1,14 +1,14 @@
-import { AppError } from '@/shared/errors/app.error'
+import { AppError, BadRequestError, ConflictError, UnauthorizedError } from '@/shared/errors/app.error'
 
-export class InvalidCredentialsError extends AppError {
+export class InvalidCredentialsError extends BadRequestError {
   constructor(message = "Invalid credentials.") {
-    super(message, 400, "INVALID_CREDENTIALS_ERROR")
+    super(message)
   }
 }
 
-export class AlreadyExistingUserError extends AppError {
+export class AlreadyExistingUserError extends ConflictError {
   constructor(message = "The username is already taken.") {
-    super(message, 409, "ALREADY_EXISTING_USER_ERROR")
+    super(message)
   }
 }
 
@@ -18,20 +18,20 @@ export class UserCreationError extends AppError {
   }
 }
 
-export class MissingRefreshTokenError extends AppError {
+export class MissingRefreshTokenError extends UnauthorizedError {
   constructor(message = "Missing refresh token.") {
-    super(message, 401, "MISSING_REFRESH_TOKEN_ERROR")
+    super(message)
   }
 }
 
-export class InvalidRefreshTokenError extends AppError {
+export class InvalidRefreshTokenError extends UnauthorizedError {
   constructor(message = "Invalid refresh token.") {
-    super(message, 401, "INVALID_REFRESH_TOKEN_ERROR")
+    super(message)
   }
 }
 
-export class ExpiredRefreshTokenError extends AppError {
+export class ExpiredRefreshTokenError extends UnauthorizedError {
   constructor(message = "Expired Refresh token.") {
-    super(message, 401, "REFRESH_TOKEN_EXPIRED_ERROR")
+    super(message)
   }
 }
