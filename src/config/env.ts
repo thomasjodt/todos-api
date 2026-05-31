@@ -1,15 +1,20 @@
+const enum NodeEnv {
+  DEVELOPMENT = 'development',
+  PRODUCTION = 'production'
+}
+
 export class EnvironmentValidator {
   // List of environment variables.
   public PORT: number
-  public NODE_ENV: string
+  public NODE_ENV: NodeEnv
   public DATABASE_URL: string
   public JWT_ACCESS_SECRET: string
   public JWT_REFRESH_SECRET: string
 
-  constructor(env: typeof Bun.env) {
+  constructor(env: Record<string, string | undefined>) {
     // 1. Get the environment variables.
     const port: string | number = env.PORT ?? 3000
-    const nodeEnv: string = env.NODE_ENV ?? 'development'
+    const nodeEnv = (env.NODE_ENV as NodeEnv) ?? NodeEnv.DEVELOPMENT
 
     const databaseURL: string | undefined = env.DATABASE_URL
     const jwtAccessSecret: string | undefined = env.JWT_ACCESS_SECRET
@@ -34,13 +39,18 @@ export class EnvironmentValidator {
     // 3. Validate correct values for variables.
 
     // 3.1. Validation for PORT
-    if (isNaN(Number(port))) {
+    const numberPort = Number(port)
+    if (!Number.isInteger(numberPort)
+      || numberPort <= 0
+      || numberPort > 65535
+      ||isNaN(numberPort)
+    ) {
       console.error('ERROR: Invalid PORT environment variable')
       process.exit(1)
     }
 
     // 3.2. Validation for NODE_ENV
-    const environments = ['development', 'production']
+    const environments = [NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION] as const
     if (!environments.includes(nodeEnv)) {
       console.error('ERROR: Invalid NODE_ENV environment variable')
       process.exit(1)
@@ -53,7 +63,10 @@ export class EnvironmentValidator {
     this.DATABASE_URL = requiredEnvVars.databaseURL as string
     this.JWT_ACCESS_SECRET = requiredEnvVars.jwtAccessSecret as string
     this.JWT_REFRESH_SECRET = requiredEnvVars.jwtRefreshSecret as string
+
+    // 5. Freeze the object to prevent further modifications.
+    Object.freeze(this)
   }
 }
 
-export const env = new EnvironmentValidator(Bun.env)
+export const env = new EnvironmentValidator(process.env)
