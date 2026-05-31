@@ -12,6 +12,6 @@ export const categories = pgTable('categories', {
   color: text('color'),
 
   createdAt: timestamp('created_at').defaultNow().notNull()
-}, (table) => ({
-  userCategoryUnique: uniqueIndex('categories_user_name_idx').on(table.userId, table.name)
-}))
+}, (table) => [
+  uniqueIndex('categories_user_name_idx').on(table.userId, table.name)
+])
